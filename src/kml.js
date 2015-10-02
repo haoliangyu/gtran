@@ -46,10 +46,11 @@ exports.toKmz = function(geojson, fileName) {
                 var zip = new JSZip();
                 zip.file('doc.kml', result.data);
 
+                var buffer = zip.generate({type:"nodebuffer"});
                 if(fileName) {
-                    return writeFile(fileName + '.kmz', zip.generate({type:"nodebuffer"}));
+                    return writeFile(fileName + '.kmz', buffer);
                 } else {
-                    Promise.resolve(zip.generate({type:"nodebuffer"}));
+                    return Promise.resolve(buffer);
                 }
            });
 };
