@@ -1,0 +1,25 @@
+{
+  "name": "gpipe",
+  "version": "1.0.0",
+  "description": "Geographic data transformation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haoliangyu/gpipe.git"
+  },
+  "author": "Haoliang Yu <haholiang.yu@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haoliangyu/gpipe/issues"
+  },
+  "homepage": "https://github.com/haoliangyu/gpipe#readme",
+  "dependencies": {
+    "jszip": "^2.5.0",
+    "promise": "^7.0.4",
+    "shp-write": "^0.2.4",
+    "tokml": "^0.3.0"
+  }
+}
