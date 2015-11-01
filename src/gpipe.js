@@ -5,7 +5,7 @@ var csv = require('./csv.js');
 
 // Shapefile Import/Export
 exports.toShp = shapefile.fromGeoJson;
-exports.fromShp = shapefile.toGeojson;
+exports.fromShp = shapefile.toGeoJson;
 
 // KML Import/Export
 exports.toKml = kml.fromGeoJson;

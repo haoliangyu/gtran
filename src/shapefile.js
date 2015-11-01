@@ -1,11 +1,25 @@
 var Promise = require('bluebird');
 var _ = require('lodash');
 
-var writeShp = Promise.promisify(require('shp-write').write);
+var readShp = Promise.promisify(require('shapefile').read);
+var createShp = Promise.promisify(require('shp-write').write);
 var writeFile = Promise.promisify(require('fs').writeFile);
 
-exports.toGeoJson = function(fileName) {
+exports.toGeoJson = function(fileName, options) {
+    var promise = new Promise(function(resolve, rejiect) {
+        var fileNameWithoutExt = fileName;
+        if(_.endsWith(fileNameWithoutExt, '.shp')) {
+            fileNameWithoutExt = fileNameWithoutExt.replace('.shp', '');
+        }
 
+        return readShp(fileNameWithoutExt).then(function(err, geojson) {
+            if(err) { reject(err); }
+
+            resolve(geojson);
+        })
+    });
+
+    return promise;
 };
 
 exports.fromGeoJson = function(geojson, fileName, options) {
@@ -46,7 +60,7 @@ exports.fromGeoJson = function(geojson, fileName, options) {
                     reject('Given geometry type is not supported');
             }
 
-            return writeShp(properties, geomType, geoms)
+            return createShp(properties, geomType, geoms)
                    .then(function(files) {
                         if (fileName) {
                             var fileNameWithoutExt = fileName;

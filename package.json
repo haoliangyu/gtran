@@ -22,8 +22,10 @@
     "jszip": "^2.5.0",
     "lodash": "^3.10.1",
     "log4js": "^0.6.27",
+    "shapefile": "^0.3.0",
     "shp-write": "^0.2.4",
-    "tokml": "^0.3.0"
+    "tokml": "^0.3.0",
+    "topojson": "^1.6.19"
   },
   "devDependencies": {
     "chai": "^3.3.0",
