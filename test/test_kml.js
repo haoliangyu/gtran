@@ -18,7 +18,7 @@ describe('KML module', function() {
         }]
     };
 
-    it('should save the geojson as a KMKL', function() {
+    it('should save the geojson as a KML file.', function() {
         gpipe.toKml(geojson, saveName).then(function(file) {
             expect(file).to.be.equal(saveName);
 

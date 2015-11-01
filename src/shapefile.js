@@ -55,17 +55,21 @@ exports.fromGeoJson = function(geojson, fileName, options) {
                             }
 
                             writeTasks = [
-                                writeFile(fileNameWithoutExt + '.shp', toBuffer(files.shp.buffer))
-                                .then(function() { Promise.resolve(fileNameWithoutExt + '.shp'); }),
-                                writeFile(fileNameWithoutExt + '.shx', toBuffer(files.shx.buffer))
-                                .then(function() { Promise.resolve(fileNameWithoutExt + '.shx'); }),
+                                writeFile(fileNameWithoutExt + '.shp', toBuffer(files.shp.buffer)),
+                                writeFile(fileNameWithoutExt + '.shx', toBuffer(files.shx.buffer)),
                                 writeFile(fileNameWithoutExt + '.dbf', toBuffer(files.dbf.buffer))
-                                .then(function() { Promise.resolve(fileNameWithoutExt + '.dbf'); })
                             ];
 
-                            return Promise.all(writeTasks);
+                            return Promise.all(writeTasks)
+                                .then(function() {
+                                    resolve([
+                                        fileNameWithoutExt + '.shp',
+                                        fileNameWithoutExt + '.shx',
+                                        fileNameWithoutExt + '.dbf'
+                                    ]);
+                                });
                         } else {
-                            Promise.resolve([
+                            resolve([
                                 { data: toBuffer(files.shp.buffer), format: 'shp' },
                                 { data: toBuffer(files.shx.buffer), format: 'shx'},
                                 { data: toBuffer(files.dbf.buffer), format: 'dbf'}

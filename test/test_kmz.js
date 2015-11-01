@@ -18,7 +18,7 @@ describe('KMZ module', function() {
         }]
     };
 
-    it('should save the geojson as a KMZ', function() {
+    it('should save the geojson as a KMZ file.', function() {
         gpipe.toKmz(geojson, saveName).then(function(file) {
             expect(file).to.be.equal(saveName);
 
