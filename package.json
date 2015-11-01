@@ -21,11 +21,13 @@
     "csv": "^0.4.6",
     "jszip": "^2.5.0",
     "lodash": "^3.10.1",
+    "log4js": "^0.6.27",
     "shp-write": "^0.2.4",
     "tokml": "^0.3.0"
   },
   "devDependencies": {
     "chai": "^3.3.0",
+    "log4js": "^0.6.27",
     "mocha": "^2.3.3"
   }
 }

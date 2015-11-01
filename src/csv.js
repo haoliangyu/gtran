@@ -4,8 +4,7 @@ var csv = require('csv');
 var _ = require('lodash');
 
 var writeFile = Promise.promisify(fs.writeFile);
-var readFile = Promise.promisify(fs.createReadStream);
-var fileExists = Promise.promisify(fs.exists);
+var fileStat = Promise.promisify(fs.statSync);
 
 exports.fromGeoJson = function(geojson, options) {
     if(geojson.features.length == 0) {
@@ -17,8 +16,8 @@ exports.fromGeoJson = function(geojson, options) {
         var attributeNames = _.keys(geojson.features[0].properties);
 
         // write csv file
-        var csv = [];
-        csv.push(attributeNames.join(',') + ',x,y/n');
+        var csvData = [];
+        csvData.push(attributeNames.join(',') + ',x,y/n');
 
         _.forEach(geojson.features, function(feature) {
             if(feature.geometry.type !== 'POINT') { return; }
@@ -31,19 +30,19 @@ exports.fromGeoJson = function(geojson, options) {
             attributes.push(feature.geometry.coordinates[0].toString());
             attributes.push(feature.geometry.coordinates[1].toString());
 
-            csv.push(attributes)
+            csvData.push(attributes)
         });
 
-        csv = csv.join('\n');
+        csvData = csvData.join('\n');
 
         if(_.has(options, 'fileName')) {
             var fileNameWithExt = options.fileName;
             if(!_.endsWith(fileNameWithExt, '.csv')) { fileNameWithExt += '.csv'; }
 
-            writeFile(fileNameWithExt, csv);
+            writeFile(fileNameWithExt, csvData);
             resolve(fileNameWithExt);
         } else {
-            resolve({ data: csv, format: 'csv' });
+            resolve({ data: csvData, format: 'csv' });
         }
     });
 
@@ -51,59 +50,46 @@ exports.fromGeoJson = function(geojson, options) {
 };
 
 exports.toGeoJson = function(fileName, options) {
-    if(!_.has(options, 'projection.x') || !_.has(options, 'projection.y')) {
-        return Promise.reject('Coordinate columns are not specified.');
-    }
 
-    return fileExists(fileName)
-        .then(function(exists) {
-            if(!exists) {
-                return Promise.reject('Input csv file does not exist.')
-            }
+    var promise = new Promise(function(resolve, reject) {
+        if(!_.has(options, 'projection.x') || !_.has(options, 'projection.y')) {
+            reject('Coordinate columns are not specified.');
+        }
 
-            return readFile(fileName);
-        })
-        .then(function(dataStream) {
-            var headerNames = [],
-                geojson = {
-                    type: 'FeatureCollection',
-                    features: []
-                },
-                xIndex, yIndex;
+        if(!fs.statSync(fileName)) {
+            reject('Input csv file does not exist.');
+        }
 
-            csv()
-            .from.stream(dataStream)
-            .on('record', function(row, index){
-                if(index == 0) {
-                    Array.prototype.push.apply(headerNames, row);
+        var geojson = {
+                type: 'FeatureCollection',
+                features: []
+            };
 
-                    xIndex = _.indexOf(headerNames, options.projection.x);
-                    yIndex = _.indexOf(headerNames, options.projection.y);
-                    if(xIndex == -1 || yIndex == -1) {
-                           return Promise.reject('Coordinate column is not found.');
-                       }
-                }
+        var parser = csv.parse({
+                columns: true,
+                auto_parse: true,
+                skip_empty_lines: true
+            }, function(err, data) {
+                if(err) { reject(err); }
 
-                var feature = {
-                    type: 'Feature',
-                    properties: [],
-                    geometry: {
-                        type: 'POINT',
-                        coordinates: [parseFloat(row[xIndex]), parseFloat(row[yIndex])]
-                    }
-                };
-
-                _.forEach(function(column, index) {
-                    feature.properties[headerNames[index]] = row[index];
+                _.forEach(data, function(line) {
+                    var feature = {
+                        type: 'Feature',
+                        properties: line,
+                        geometry: {
+                            type: 'POINT',
+                            coordinates: [line[options.projection.x],
+                                          line[options.projection.y]]
+                        }
+                    };
+                    geojson.features.push(feature);
                 });
 
-                geojson.features.push(feature);
-            })
-            .on('end', function(count){
-                return Promise.resolve(geojson);
-            })
-            .on('error', function(error){
-                return Promise.reject(error.message);
+                resolve(geojson);
             });
-        });
+
+        fs.createReadStream(fileName, {}).pipe(parser);
+    });
+
+    return promise;
 }
