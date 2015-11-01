@@ -7,14 +7,13 @@ var chai = require('chai');
 var expect = chai.expect;
 var should = chai.should;
 
-var fileStat = Promise.promisify(fs.stat);
 var fileWrite = Promise.promisify(fs.writeFile);
 
 describe('CSV module', function() {
 
     var saveName = 'test.csv';
 
-    var csvData = 'ID,X,Y\n1,-78,65\n1,-78,66\n'
+    var csvData = 'ID,X,Y\n1,-78,65\n1,-78,66\n';
 
     var geojson = {
         'type': 'FeatureCollection',
@@ -28,9 +27,7 @@ describe('CSV module', function() {
     it('should save the geojson as a csv file', function() {
         gpipe.toCSV(geojson, { fileName: saveName })
         .then(function(filePath) {
-            return fileStat(filePath);
-        })
-        .then(function(stat) {
+            var stat = fs.statSync(filePath);
             expect(stat).to.exist;
 
             if(stat) { fs.unlinkSync(saveName); }
@@ -54,9 +51,9 @@ describe('CSV module', function() {
             logger.error(err);
         })
         .finally(function() {
-            fileStat(saveName).then(function(stat) {
-                if(stat) { fs.unlinkSync(saveName); }
-            });
+            if(fs.statSync(saveName)) {
+                fs.unlinkSync(saveName);
+            }
         });
     });
 });
