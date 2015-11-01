@@ -25,7 +25,7 @@ describe('CSV module', function() {
     };
 
     it('should save the geojson as a csv file', function() {
-        gpipe.toCSV(geojson, { fileName: saveName })
+        gpipe.toCSV(geojson, saveName)
         .then(function(filePath) {
             var stat = fs.statSync(filePath);
             expect(stat).to.exist;

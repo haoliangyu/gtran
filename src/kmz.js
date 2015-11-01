@@ -5,18 +5,18 @@ var Promise = require('bluebird');
 
 var writeFile = Promise.promisify(require('fs').writeFile);
 
-exports.fromGeoJson = function(geojson, options) {
+exports.fromGeoJson = function(geojson, fileName, options) {
     return kml.fromGeoJson(geojson).then(function(file) {
         var zip = new JSZip();
         zip.file('doc.kml', file.data);
 
         var buffer = zip.generate({type:"nodebuffer"});
-        if(_.has(options, 'fileName')) {
-            var fileNameWithExt = options.fileName;
+        if(fileName) {
+            var fileNameWithExt = fileName;
             if(!_.endsWith(fileNameWithExt, '.kmz')) { fileNameWithExt += '.kmz'; }
 
-            writeFile(options.fileName + '.kmz', buffer);
-            resolve(fileNameWithExt);
+            writeFile(fileNameWithExt, buffer);
+            return Promise.resolve(fileNameWithExt);
         } else {
             return Promise.resolve({
                 data: buffer,

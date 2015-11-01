@@ -6,7 +6,7 @@ var _ = require('lodash');
 var writeFile = Promise.promisify(fs.writeFile);
 var fileStat = Promise.promisify(fs.statSync);
 
-exports.fromGeoJson = function(geojson, options) {
+exports.fromGeoJson = function(geojson, fileName, options) {
     if(geojson.features.length == 0) {
         return Promise.reject('No feautre is found at the input geojson.')
     }
@@ -35,8 +35,8 @@ exports.fromGeoJson = function(geojson, options) {
 
         csvData = csvData.join('\n');
 
-        if(_.has(options, 'fileName')) {
-            var fileNameWithExt = options.fileName;
+        if(fileName) {
+            var fileNameWithExt = fileName;
             if(!_.endsWith(fileNameWithExt, '.csv')) { fileNameWithExt += '.csv'; }
 
             writeFile(fileNameWithExt, csvData);

@@ -8,7 +8,7 @@ exports.toGeoJson = function(fileName) {
 
 };
 
-exports.fromGeoJson = function(geojson, options) {
+exports.fromGeoJson = function(geojson, fileName, options) {
 
     var promise = new Promise(function(resolve, reject) {
         try {
@@ -48,8 +48,8 @@ exports.fromGeoJson = function(geojson, options) {
 
             return writeShp(properties, geomType, geoms)
                    .then(function(files) {
-                        if (_.has(options, 'fileName')) {
-                            var fileNameWithoutExt = options.fileName;
+                        if (fileName) {
+                            var fileNameWithoutExt = fileName;
                             if(_.endsWith(fileNameWithoutExt, '.shp')) {
                                 fileNameWithoutExt = fileNameWithoutExt.replace('.shp', '');
                             }

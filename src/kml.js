@@ -11,7 +11,7 @@ exports.toGeoJson = function(fileName) {
 
 };
 
-exports.fromGeoJson = function(geojson, options) {
+exports.fromGeoJson = function(geojson, fileName, options) {
 
     var promise = new Promise(function(resolve, reject) {
         try {
@@ -30,8 +30,8 @@ exports.fromGeoJson = function(geojson, options) {
                 description: 'kmlDescription'
             });
 
-            if(_.has(options, 'fileName')) {
-                var fileNameWithExt = options.fileName;
+            if(fileName) {
+                var fileNameWithExt = fileName;
                 if(!_.endsWith(fileNameWithExt, '.kml')) { fileNameWithExt += '.kml'; }
 
                 writeFile(fileNameWithExt, kmlContent);
