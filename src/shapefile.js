@@ -1,9 +1,14 @@
-var Promise = require('promise');
+var Promise = require('bluebird');
+var _ = require('lodash');
 
-var writeShp = Promise.denodeify(require('shp-write').write);
-var writeFile = Promise.denodeify(require('fs').writeFile);
+var writeShp = Promise.promisify(require('shp-write').write);
+var writeFile = Promise.promisify(require('fs').writeFile);
 
-exports.toShp = function(geojson, fileName) {
+exports.toGeoJson = function(fileName) {
+
+};
+
+exports.fromGeoJson = function(geojson, options) {
 
     var promise = new Promise(function(resolve, reject) {
         try {
@@ -30,8 +35,8 @@ exports.toShp = function(geojson, fileName) {
                     geomType = 'POINT';
                     break;
                 case 'POLYLINE':
-                case 'MULTIPOLYLINE'
-                    geomType = 'POLYLINE'
+                case 'MULTIPOLYLINE':
+                    geomType = 'POLYLINE';
                     break;
                 case 'POLYGON':
                 case 'MULTIPOLYGON':
@@ -43,11 +48,19 @@ exports.toShp = function(geojson, fileName) {
 
             return writeShp(properties, geomType, geoms)
                    .then(function(files) {
-                        if (fileName !== undefined) {
+                        if (_.has(options, 'fileName')) {
+                            var fileNameWithoutExt = options.fileName;
+                            if(_.endsWith(fileNameWithoutExt, '.shp')) {
+                                fileNameWithoutExt = fileNameWithoutExt.replace('.shp', '');
+                            }
+
                             writeTasks = [
-                                writeFile(fileName + '.shp', toBuffer(files.shp.buffer)),
-                                writeFile(fileName + '.shx', toBuffer(files.shx.buffer)),
-                                writeFile(fileName + '.dbf', toBuffer(files.dbf.buffer))
+                                writeFile(fileNameWithoutExt + '.shp', toBuffer(files.shp.buffer))
+                                .then(function() { Promise.resolve(fileNameWithoutExt + '.shp'); }),
+                                writeFile(fileNameWithoutExt + '.shx', toBuffer(files.shx.buffer))
+                                .then(function() { Promise.resolve(fileNameWithoutExt + '.shx'); }),
+                                writeFile(fileNameWithoutExt + '.dbf', toBuffer(files.dbf.buffer))
+                                .then(function() { Promise.resolve(fileNameWithoutExt + '.dbf'); })
                             ];
 
                             return Promise.all(writeTasks);

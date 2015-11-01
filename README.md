@@ -2,4 +2,4 @@
 
 ---
 
-NodeJS geographic data transformation package
+gpipe is a NodeJS geospatial data IO package.

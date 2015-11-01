@@ -1,11 +1,17 @@
-var Promise = require('promise');
+var Promise = require("bluebird");
 var tokml = require('tokml');
 var path = require('path');
-var JSZip = require('jszip');
+var _ = require('lodash');
 
-var writeFile = Promise.denodeify(require('fs').writeFile);
+var writeFile = Promise.promisify(require('fs').writeFile);
 
-exports.toKml = function(geojson, fileName) {
+// When converting kml to geojson, properties are not guarrented.
+// For now only the geometry will be captured.
+exports.toGeoJson = function(fileName) {
+
+};
+
+exports.fromGeoJson = function(geojson, options) {
 
     var promise = new Promise(function(resolve, reject) {
         try {
@@ -24,10 +30,14 @@ exports.toKml = function(geojson, fileName) {
                 description: 'kmlDescription'
             });
 
-            if(fileName) {
-                return writeFile(fileName + '.kml', kmlContent);
+            if(_.has(options, 'fileName')) {
+                var fileNameWithExt = options.fileName;
+                if(!_.endsWith(fileNameWithExt, '.kml')) { fileNameWithExt += '.kml'; }
+
+                writeFile(fileNameWithExt, kmlContent);
+                resolve(fileNameWithExt);
             } else {
-                return Promise.resolve({
+                resolve({
                     data: kmlContent,
                     format: 'kml'
                 });
@@ -38,19 +48,4 @@ exports.toKml = function(geojson, fileName) {
     });
 
     return promise;
-};
-
-exports.toKmz = function(geojson, fileName) {
-    return exports.toKml(geojson)
-           .then(function(result) {
-                var zip = new JSZip();
-                zip.file('doc.kml', result.data);
-
-                var buffer = zip.generate({type:"nodebuffer"});
-                if(fileName) {
-                    return writeFile(fileName + '.kmz', buffer);
-                } else {
-                    return Promise.resolve(buffer);
-                }
-           });
 };
