@@ -1,12 +1,15 @@
 var Promise = require('bluebird');
 var _ = require('lodash');
+var fs = require('fs');
 
 var readShp = Promise.promisify(require('shapefile').read);
 var createShp = Promise.promisify(require('shp-write').write);
-var writeFile = Promise.promisify(require('fs').writeFile);
+var writeFile = Promise.promisify(fs.writeFile);
 
 exports.toGeoJson = function(fileName, options) {
     var promise = new Promise(function(resolve, rejiect) {
+        if(!fs.statSync(fileName)) { reject('Given shapefile does not exist.'); }
+
         var fileNameWithoutExt = fileName;
         if(_.endsWith(fileNameWithoutExt, '.shp')) {
             fileNameWithoutExt = fileNameWithoutExt.replace('.shp', '');

@@ -1,13 +1,15 @@
 var gpipe = require('../src/gpipe.js');
 var fs = require('fs');
+var logger = require('log4js').getLogger();
 
 var chai = require('chai');
 var expect = chai.expect;
-var should = chai.should;
 
 describe('KML module', function() {
 
     var saveName = 'test.kml';
+
+    var kmlData = 'test/data/test.kml';
 
     var geojson = {
         'type': 'FeatureCollection',
@@ -23,6 +25,18 @@ describe('KML module', function() {
             expect(file).to.be.equal(saveName);
 
             if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }
+        })
+        .catch(function(err) {
+            logger.error(err);
+        });
+    });
+
+    it('should load the kml file and convert it into a geojson.', function() {
+        gpipe.fromKml(kmlData).then(function(geojson) {
+            expect(geojson.features.length).to.be.equal(4);
+        })
+        .catch(function(err) {
+            logger.error(err);
         });
     });
 

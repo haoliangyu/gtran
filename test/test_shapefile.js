@@ -5,13 +5,12 @@ var logger = require('log4js').getLogger();
 
 var chai = require('chai');
 var expect = chai.expect;
-var should = chai.should;
 
 describe('Shapefile module', function() {
 
     var saveName = 'test.shp';
 
-    var testData = 'test/data/test_POINT.shp'
+    var testData = 'test/data/test_POINT.shp';
 
     var geojson = {
         'type': 'FeatureCollection',

@@ -5,7 +5,6 @@ var logger = require('log4js').getLogger();
 
 var chai = require('chai');
 var expect = chai.expect;
-var should = chai.should;
 
 var fileWrite = Promise.promisify(fs.writeFile);
 

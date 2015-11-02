@@ -57,7 +57,7 @@ exports.toGeoJson = function(fileName, options) {
         }
 
         if(!fs.statSync(fileName)) {
-            reject('Input csv file does not exist.');
+            reject('Given csv file does not exist.');
         }
 
         var geojson = {

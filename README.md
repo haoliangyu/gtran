@@ -2,4 +2,89 @@
 
 ---
 
-gpipe is a NodeJS geospatial data IO package.
+Handling geospatial data formats is trivial? Try gpipe!
+
+**gpipe** is a NodeJS package that tries to make the geospatial data read/write simple and manageable.
+
+## Feature
+
+* **Multi-format support**. One package for all formats.
+
+* **Simple functions**. Only two categories of functions: from[format]() and to[format]().
+
+* **Promised**. Gpipe is powered by bluebird and it is happy to adapt to your choice of promise library.
+
+* **GeoJson input/output**
+
+## Supported Formats
+
+* CSV (point data only)
+
+* KML
+
+* KMZ (write-only)
+
+* Shapefile
+
+## Function
+
+gpipe provides two basic categories of function: from[format]() and to[format]().
+
+* from[format](fileName [, options]) - read the geospatial data file and return a GeoJson object.
+
+* to[format](geojson, fileName [,options]) - write the GeoJson object into a data file with given path and format. If the fileName is not given, it returns file data ready for transfer or writting.
+
+A full list of available functions:
+
+* **.fromCSV(fileName, options)** - Columns projection is required. Please see the sample.
+
+* **.toCSV(geojson, fileName)**
+
+* **.fromKML(fileName)**
+
+* **.toKML(geojson, fileName)**
+
+* **.toKMZ(geojson, fileName)**
+
+* **.fromShp(fileName)**
+
+* **.toShp(geojson, fileName)**
+
+## sample
+
+```
+var gpipe = require('gpipe'),
+    geojson;
+
+# Shapefile
+gpipe.fromShp('tes.shp')
+.then(function(object) {
+    geojson = object;
+});
+
+gpipe.toShp(geojson, 'save.shp')
+.then(function(fileNames) {
+    console.log('SHP files have been saved at:' + fileNames.toString());
+});
+
+# CSV
+# If the test.csv has two columns: latitude and longitude
+gpipe.fromCSV('test.csv', {
+    projection: { x: longitude, y: latitude }
+})
+.then(function(object) {
+    geojson = object;
+});
+```
+
+## Dependency
+
+The data conversion is powered by theses awesome packages
+
+* csv-parse by
+
+* shapefile by
+
+* shp-write by
+
+* tokml by

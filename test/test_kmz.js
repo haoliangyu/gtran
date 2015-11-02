@@ -1,9 +1,9 @@
 var gpipe = require('../src/gpipe.js');
 var fs = require('fs');
+var logger = require('log4js').getLogger();
 
 var chai = require('chai');
 var expect = chai.expect;
-var should = chai.should;
 
 describe('KMZ module', function() {
 
@@ -23,7 +23,9 @@ describe('KMZ module', function() {
             expect(file).to.be.equal(saveName);
 
             if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }
+        })
+        .catch(function(err) {
+            logger.error(err);
         });
     });
-
 });

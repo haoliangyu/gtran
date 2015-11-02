@@ -9,7 +9,7 @@ exports.fromShp = shapefile.toGeoJson;
 
 // KML Import/Export
 exports.toKml = kml.fromGeoJson;
-exports.fromKml = kml.toGeojson;
+exports.fromKml = kml.toGeoJson;
 
 // KMZ Export
 exports.toKmz = kmz.fromGeoJson;
