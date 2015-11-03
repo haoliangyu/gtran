@@ -21,12 +21,13 @@ exports.toGeoJson = function(fileName, options) {
                     'features': []
                 };
 
+            var schemas = findSchemas(etree);
             var placemarks = etree.findall('.//Placemark');
             _.forEach(placemarks, function(placemark) {
                 geojson.features.push({
                     type: 'feature',
                     geometry: getGeometry(placemark),
-                    properties: getProperties(placemark)
+                    properties: getProperties(placemark, schemas)
                 });
             });
 
@@ -79,12 +80,12 @@ exports.fromGeoJson = function(geojson, fileName, options) {
 function getGeometry(placemark) {
     var geomTag = placemark.find('./Point');
     if(geomTag) {
-        return getGeom('POINT', geomTag.findtext('./coordinates'));
+        return createGeometry('POINT', geomTag.findtext('./coordinates'));
     }
 
     geomTag = placemark.find('./LineString');
     if(geomTag) {
-        return getGeom('POLYLINE', geomTag.findtext('./coordinates'));
+        return createGeometry('POLYLINE', geomTag.findtext('./coordinates'));
     }
 
     geomTag = placemark.find('./Polygon');
@@ -95,14 +96,14 @@ function getGeometry(placemark) {
                                     return innerRing.text;
                                 })
 
-        return getGeom('POLYGON', outRingCoors, inRingsCoors);
+        return createGeometry('POLYGON', outRingCoors, inRingsCoors);
     }
 }
 
-function getGeom(geomType, coordStr) {
+function createGeometry(geomType, outerCoorStr, innerCoorStr) {
     return {
         type: geomType,
-        coordinates: getCoordinates(coordStr)
+        coordinates: getCoordinates(outerCoorStr, innerCoorStr);
     };
 }
 
@@ -138,16 +139,72 @@ function getCoordinates(outCoorsdStr, inCoordsStrs) {
     }
 }
 
-function findSchema(rootnode) {
-    var schemaNode = rootnode.find('./kml/Document/Schema'),
-        fields;
+function findSchemas(rootnode) {
+    var schemaNodes = rootnode.findall('./kml/Document/Schema');
 
-    if(schemaNode) {
-        fields = {};
-        _.forEach(schemaNode.findall('./'), function(fieldNode) {
-            fields.
+    // considering if we have more than one schema
+    if(schemaNodes.length > 0) {
+        var schemas = {};
+        _.forEach(schemaNodes, function(schemaNode) {
+            var schema = {};
+
+            // get the type of field
+            _.forEach(schemaNode.findall('./SimpleField'), function(fieldNode) {
+                schema[fieldNode.attrib.name] = fieldNode.attrib.type;
+            });
+
+            schemas[schemaNode.attrib.id] = schema;
+        });
+
+        return schemas;
+    }
+}
+
+function getProperties(placemark, schemas) {
+    var properties = {};
+
+    // name
+    var name = placemark.findtext('./name');
+    if(name) { properties.name = name; }
+
+    // description
+    var description = placemark.findtext('./description');
+    if(description) { properties.description = description; }
+
+    // schema data
+    if(schemas) {
+        var schemaDatasets = placemark.findall('./ExtendedData/SchemaData');
+        _.forEach(schemaDatasets, function(schemaDataset) {
+            var schema = schemas[schemaDataset.attrib.schemaURl.replace('#', '')],
+                fields = schemaDataset.findall('./SimpleData');
+            _.forEach(fields, function(field) {
+                properties[field.attrib.name] = convert(field.text, schema[field.attrib.name];)
+            });
         });
     }
 
-    return fields;
+    // simple data
+    var fields = placemark.findall('./ExtendedData/Data');
+    _.forEach(fields, function(field) {
+        properties[field.attrib.name] = field.findtext('./value');
+    });
+
+    return properties;
+}
+
+function convert(value, toType) {
+    switch(toType) {
+        case 'int':
+        case 'uint':
+        case 'short':
+        case 'ushort'
+            return parseInt(value);
+        case 'float':
+        case 'double':
+            return parseFloat(value);
+        case 'bool':
+            return value.toLowerCase() === 'true';
+        default:
+            return value;
+    };
 }
