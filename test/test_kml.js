@@ -33,7 +33,22 @@ describe('KML module', function() {
 
     it('should load the kml file and convert it into a geojson.', function() {
         gpipe.fromKml(kmlData).then(function(geojson) {
+            // Get features
             expect(geojson.features.length).to.be.equal(4);
+
+            // Check Data tag
+            expect(geojson.features[0].properties).has.property('id');
+            expect(geojson.features[0].properties.id).to.be.equal('1');
+
+            // Check name and description
+            expect(geojson.features[1].properties).has.property('name');
+            expect(geojson.features[1].properties.name).to.be.equal('Point2');
+            expect(geojson.features[1].properties).has.property('description');
+            expect(geojson.features[1].properties.description).to.be.equal('test');
+
+            // Check SimpleData tag
+            expect(geojson.features[2].properties).has.property('id');
+            expect(geojson.features[2].properties.id).to.be.equal(1);
         })
         .catch(function(err) {
             logger.error(err);

@@ -103,7 +103,7 @@ function getGeometry(placemark) {
 function createGeometry(geomType, outerCoorStr, innerCoorStr) {
     return {
         type: geomType,
-        coordinates: getCoordinates(outerCoorStr, innerCoorStr);
+        coordinates: getCoordinates(outerCoorStr, innerCoorStr)
     };
 }
 
@@ -140,7 +140,7 @@ function getCoordinates(outCoorsdStr, inCoordsStrs) {
 }
 
 function findSchemas(rootnode) {
-    var schemaNodes = rootnode.findall('./kml/Document/Schema');
+    var schemaNodes = rootnode.findall('./Document/Schema');
 
     // considering if we have more than one schema
     if(schemaNodes.length > 0) {
@@ -178,7 +178,7 @@ function getProperties(placemark, schemas) {
             var schema = schemas[schemaDataset.attrib.schemaURl.replace('#', '')],
                 fields = schemaDataset.findall('./SimpleData');
             _.forEach(fields, function(field) {
-                properties[field.attrib.name] = convert(field.text, schema[field.attrib.name];)
+                properties[field.attrib.name] = convert(field.text, schema[field.attrib.name]);
             });
         });
     }
@@ -197,7 +197,7 @@ function convert(value, toType) {
         case 'int':
         case 'uint':
         case 'short':
-        case 'ushort'
+        case 'ushort':
             return parseInt(value);
         case 'float':
         case 'double':
