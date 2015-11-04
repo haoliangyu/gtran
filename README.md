@@ -8,13 +8,13 @@ Handling geospatial data formats is trivial? Try gpipe!
 
 ## Feature
 
-* **Multi-format support**. One package for all formats.
+* **Multi-format support** - One package for all formats.
 
-* **Simple functions**. Only two categories of functions: from[format]() and to[format]().
+* **Simple functions** - Only two categories of functions: from() and to().
 
-* **Promised**. Gpipe is powered by bluebird and it is happy to adapt to your choice of promise library.
+* **Promised** - gpipe is promised by bluebird and it is happy to adapt to your choice of promise library.
 
-* **GeoJson input/output**
+* **GeoJson input/output** - Get the GeoJson from file and turn it into whatever you want
 
 ## Supported Formats
 
@@ -22,7 +22,7 @@ Handling geospatial data formats is trivial? Try gpipe!
 
 * KML
 
-* KMZ (write-only)
+* KMZ (write only)
 
 * Shapefile
 
@@ -30,9 +30,13 @@ Handling geospatial data formats is trivial? Try gpipe!
 
 gpipe provides two basic categories of function: from[format]() and to[format]().
 
-* from[format](fileName [, options]) - read the geospatial data file and return a GeoJson object.
+* **from\[formatName\](fileName [, options])**
 
-* to[format](geojson, fileName [,options]) - write the GeoJson object into a data file with given path and format. If the fileName is not given, it returns file data ready for transfer or writting.
+    Read the geospatial data file and return a GeoJson object.
+
+* **to\[formatName\](geojson, fileName [,options])**
+
+    Write the GeoJson object into a data file with given path and format. If the fileName is not given, it returns file data ready for transfer or writting.
 
 A full list of available functions:
 
@@ -50,7 +54,7 @@ A full list of available functions:
 
 * **.toShp(geojson, fileName)**
 
-## sample
+## Sample
 
 ```
 var gpipe = require('gpipe'),
@@ -79,7 +83,7 @@ gpipe.fromCSV('test.csv', {
 
 ## Dependency
 
-The data conversion is powered by theses awesome packages
+This package is powered by theses awesome packages
 
 * csv-parse by
 
