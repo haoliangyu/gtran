@@ -14,7 +14,7 @@ Handling geospatial data formats is trivial? Try gpipe!
 
 * **Promised** - gpipe is promised by bluebird and it is happy to adapt to your choice of promise library.
 
-* **GeoJson input/output** - Get the GeoJson from file and turn it into whatever you want
+* **GeoJson input/output** - Get the GeoJson from file and turn it into whatever you want.
 
 ## Supported Formats
 
@@ -85,10 +85,10 @@ gpipe.fromCSV('test.csv', {
 
 This package is powered by theses awesome packages
 
-* csv-parse by
+* [csv-parse](https://github.com/wdavidw/node-csv-parse)
 
-* shapefile by
+* [shapefile](https://github.com/mbostock/shapefile)
 
-* shp-write by
+* [shp-write](https://github.com/mapbox/shp-write)
 
-* tokml by
+* [tokml](https://github.com/mapbox/tokml)
