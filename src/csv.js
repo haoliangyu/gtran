@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 var fs = require('fs');
-var csv = require('csv');
+var csvParser = require('csv-parse');
 var _ = require('lodash');
 
 var writeFile = Promise.promisify(fs.writeFile);
@@ -65,7 +65,7 @@ exports.toGeoJson = function(fileName, options) {
                 features: []
             };
 
-        var parser = csv.parse({
+        var parser = csvParser({
                 columns: true,
                 auto_parse: true,
                 skip_empty_lines: true

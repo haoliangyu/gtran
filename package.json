@@ -18,7 +18,7 @@
   "homepage": "https://github.com/haoliangyu/gpipe#readme",
   "dependencies": {
     "bluebird": "^3.0.2",
-    "csv": "^0.4.6",
+    "csv-parse": "^1.0.0",
     "elementtree": "^0.1.6",
     "jszip": "^2.5.0",
     "lodash": "^3.10.1",
