@@ -1,11 +1,17 @@
+'use strict';
+
 var JSZip = require('jszip');
 var kml = require('./kml.js');
 var _ = require('lodash');
-var Promise = require('bluebird');
+var promiseLib = require('./promise.js');
 
-var writeFile = Promise.promisify(require('fs').writeFile);
+var Promise, writeFile;
+
+exports.setPromiseLib = setPromiseLib;
 
 exports.fromGeoJson = function(geojson, fileName, options) {
+    if (!Promise) { setPromiseLib(); }
+
     return kml.fromGeoJson(geojson).then(function(file) {
         var zip = new JSZip();
         zip.file('doc.kml', file.data);
@@ -16,6 +22,7 @@ exports.fromGeoJson = function(geojson, fileName, options) {
             if(!_.endsWith(fileNameWithExt, '.kmz')) { fileNameWithExt += '.kmz'; }
 
             writeFile(fileNameWithExt, buffer);
+
             return Promise.resolve(fileNameWithExt);
         } else {
             return Promise.resolve({
@@ -25,3 +32,10 @@ exports.fromGeoJson = function(geojson, fileName, options) {
         }
     })
 };
+
+function setPromiseLib(lib) {
+    Promise = promiseLib.set(lib);
+    writeFile = promiseLib.promisify(require('fs').writeFile);
+
+    kml.setPromiseLib(lib);
+}

@@ -1,13 +1,18 @@
-var Promise = require("bluebird");
+'use strict';
+
+var promiseLib = require("./promise.js");
 var tokml = require('tokml');
 var _ = require('lodash');
 var fs = require('fs');
 var et = require('elementtree');
 
-var readFile = Promise.promisify(fs.readFile);
-var writeFile = Promise.promisify(fs.writeFile);
+var Promise, readFile, writeFile;
+
+exports.setPromiseLib = setPromiseLib;
 
 exports.toGeoJson = function(fileName, options) {
+    if (!Promise) { setPromiseLib(); }
+
     var promise = new Promise(function(resolve, reject) {
         if(!fs.statSync(fileName)) { reject('Give KML file does not exist.'); }
 
@@ -39,6 +44,7 @@ exports.toGeoJson = function(fileName, options) {
 };
 
 exports.fromGeoJson = function(geojson, fileName, options) {
+    if (!Promise) { setPromiseLib(); }
 
     var promise = new Promise(function(resolve, reject) {
         try {
@@ -207,4 +213,10 @@ function convert(value, toType) {
         default:
             return value;
     };
+}
+
+function setPromiseLib(lib) {
+    Promise = promiseLib.set(lib);
+    readFile = promiseLib.promisify(fs.readFile);
+    writeFile = promiseLib.promisify(fs.writeFile);
 }

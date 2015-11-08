@@ -23,7 +23,8 @@ describe('CSV module', function() {
         }]
     };
 
-    it('should save the geojson as a csv file', function() {
+    it('should save the geojson as a csv file with bluebird', function() {
+        gpipe.setPromiseLib(require('bluebird'));
         gpipe.toCSV(geojson, saveName)
         .then(function(filePath) {
             var stat = fs.statSync(filePath);

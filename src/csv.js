@@ -1,12 +1,17 @@
-var Promise = require('bluebird');
+'use strict';
+
+var promiseLib = require('./promise.js');
 var fs = require('fs');
 var csvParser = require('csv-parse');
 var _ = require('lodash');
 
-var writeFile = Promise.promisify(fs.writeFile);
-var fileStat = Promise.promisify(fs.statSync);
+var Promise, writeFile, fileStat;
+
+exports.setPromiseLib = setPromiseLib;
 
 exports.fromGeoJson = function(geojson, fileName, options) {
+    if (!Promise) { setPromiseLib(); }
+
     if(geojson.features.length == 0) {
         return Promise.reject('No feautre is found at the input geojson.')
     }
@@ -50,6 +55,7 @@ exports.fromGeoJson = function(geojson, fileName, options) {
 };
 
 exports.toGeoJson = function(fileName, options) {
+    if (!Promise) { setPromiseLib(); }
 
     var promise = new Promise(function(resolve, reject) {
         if(!_.has(options, 'projection.x') || !_.has(options, 'projection.y')) {
@@ -92,4 +98,10 @@ exports.toGeoJson = function(fileName, options) {
     });
 
     return promise;
+}
+
+function setPromiseLib(lib) {
+    Promise = promiseLib.set(lib);
+    writeFile = promiseLib.promisify(fs.writeFile);
+    fileStat = promiseLib.promisify(fs.statSync);
 }

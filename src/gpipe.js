@@ -3,6 +3,14 @@ var kml = require('./kml.js');
 var kmz = require('./kmz.js');
 var csv = require('./csv.js');
 
+// specify promise lib
+exports.setPromiseLib = function(promiseLib) {
+  shapefile.setPromiseLib(promiseLib);
+  kml.setPromiseLib(promiseLib);
+  kmz.setPromiseLib(promiseLib);
+  csv.setPromiseLib(promiseLib);
+};
+
 // Shapefile Import/Export
 exports.toShp = shapefile.fromGeoJson;
 exports.fromShp = shapefile.toGeoJson;

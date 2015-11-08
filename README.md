@@ -2,7 +2,7 @@
 
 Handling geospatial data formats is trivial? Try gpipe!
 
-**gpipe** is a NodeJS package that tries to make the geospatial data read/write simple and manageable.
+**gpipe** is a package that trying to make the geospatial data read/write simple and manageable.
 
 ## Feature
 

@@ -1,12 +1,15 @@
-var Promise = require('bluebird');
+'use strict';
+
+var promiseLib = require('./promise.js');
 var _ = require('lodash');
 var fs = require('fs');
+var Promise, readShp, createShp, writeFile;
 
-var readShp = Promise.promisify(require('shapefile').read);
-var createShp = Promise.promisify(require('shp-write').write);
-var writeFile = Promise.promisify(fs.writeFile);
+exports.setPromiseLib = setPromiseLib;
 
 exports.toGeoJson = function(fileName, options) {
+    if (!Promise) { setPromiseLib(); }
+
     var promise = new Promise(function(resolve, rejiect) {
         if(!fs.statSync(fileName)) { reject('Given shapefile does not exist.'); }
 
@@ -26,6 +29,7 @@ exports.toGeoJson = function(fileName, options) {
 };
 
 exports.fromGeoJson = function(geojson, fileName, options) {
+    if (!Promise) { setPromiseLib(); }
 
     var promise = new Promise(function(resolve, reject) {
         try {
@@ -71,7 +75,7 @@ exports.fromGeoJson = function(geojson, fileName, options) {
                                 fileNameWithoutExt = fileNameWithoutExt.replace('.shp', '');
                             }
 
-                            writeTasks = [
+                            var writeTasks = [
                                 writeFile(fileNameWithoutExt + '.shp', toBuffer(files.shp.buffer)),
                                 writeFile(fileNameWithoutExt + '.shx', toBuffer(files.shx.buffer)),
                                 writeFile(fileNameWithoutExt + '.dbf', toBuffer(files.dbf.buffer))
@@ -107,4 +111,11 @@ function toBuffer(ab) {
         view = new Uint8Array(ab);
     for (var i = 0; i < buffer.length; ++i) { buffer[i] = view[i]; }
     return buffer;
+}
+
+function setPromiseLib(lib) {
+    Promise = promiseLib.set(lib);
+    readShp = promiseLib.promisify(require('shapefile').read);
+    createShp = promiseLib.promisify(require('shp-write').write);
+    writeFile = promiseLib.promisify(fs.writeFile);
 }
