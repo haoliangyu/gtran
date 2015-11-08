@@ -1,5 +1,5 @@
 {
-  "name": "gpipe",
+  "name": "gtran",
   "version": "1.0.0",
   "description": "Geographic data transformation",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/haoliangyu/gpipe.git"
+    "url": "git+https://github.com/haoliangyu/gtran.git"
   },
   "author": "Haoliang Yu <haholiang.yu@outlook.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/haoliangyu/gpipe/issues"
+    "url": "https://github.com/haoliangyu/gtran/issues"
   },
-  "homepage": "https://github.com/haoliangyu/gpipe#readme",
+  "homepage": "https://github.com/haoliangyu/gtran#readme",
   "dependencies": {
     "csv-parse": "^1.0.0",
     "elementtree": "^0.1.6",

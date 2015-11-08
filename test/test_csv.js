@@ -1,4 +1,4 @@
-var gpipe = require('../src/gpipe.js');
+var gtran = require('../src/gtran.js');
 var fs = require('fs');
 var Promise = require('bluebird');
 var logger = require('log4js').getLogger();
@@ -24,8 +24,8 @@ describe('CSV module', function() {
     };
 
     it('should save the geojson as a csv file with bluebird', function() {
-        gpipe.setPromiseLib(require('bluebird'));
-        gpipe.toCSV(geojson, saveName)
+        gtran.setPromiseLib(require('bluebird'));
+        gtran.toCSV(geojson, saveName)
         .then(function(filePath) {
             var stat = fs.statSync(filePath);
             expect(stat).to.exist;
@@ -41,7 +41,7 @@ describe('CSV module', function() {
         // Create csv file first
         fileWrite(saveName, csvData)
         .then(function() {
-            return gpipe.fromCSV(saveName, { projection: { x: 'X', y: 'Y' }});
+            return gtran.fromCSV(saveName, { projection: { x: 'X', y: 'Y' }});
         })
         .then(function(geojson) {
             expect(geojson).to.exist;

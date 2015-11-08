@@ -1,4 +1,4 @@
-var gpipe = require('../src/gpipe.js');
+var gtran = require('../src/gtran.js');
 var fs = require('fs');
 var logger = require('log4js').getLogger();
 
@@ -19,8 +19,8 @@ describe('KMZ module', function() {
     };
 
     it('should save the geojson as a KMZ file with promise.', function() {
-        gpipe.setPromiseLib(require('promise'));
-        gpipe.toKmz(geojson, saveName).then(function(file) {
+        gtran.setPromiseLib(require('promise'));
+        gtran.toKmz(geojson, saveName).then(function(file) {
             expect(file).to.be.equal(saveName);
 
             if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }

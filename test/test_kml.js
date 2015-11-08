@@ -1,4 +1,4 @@
-var gpipe = require('../src/gpipe.js');
+var gtran = require('../src/gtran.js');
 var fs = require('fs');
 var logger = require('log4js').getLogger();
 
@@ -21,8 +21,8 @@ describe('KML module', function() {
     };
 
     it('should save the geojson as a KML file with Q.', function() {
-        gpipe.setPromiseLib(require('q'));
-        gpipe.toKml(geojson, saveName).then(function(file) {
+        gtran.setPromiseLib(require('q'));
+        gtran.toKml(geojson, saveName).then(function(file) {
             expect(file).to.be.equal(saveName);
 
             if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }
@@ -33,7 +33,7 @@ describe('KML module', function() {
     });
 
     it('should load the kml file and convert it into a geojson.', function() {
-        gpipe.fromKml(kmlData).then(function(geojson) {
+        gtran.fromKml(kmlData).then(function(geojson) {
             // Get features
             expect(geojson.features.length).to.be.equal(4);
 

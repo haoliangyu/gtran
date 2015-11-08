@@ -1,8 +1,8 @@
-# gpipe
+# gtran
 
-Handling geospatial data formats is trivial? Try gpipe!
+Handling geospatial data formats is trivial? Try gtran!
 
-**gpipe** is a package that trying to make the geospatial data read/write simple and manageable.
+**gtran** is a package that trying to make the geospatial data read/write simple and manageable.
 
 ## Feature
 
@@ -10,7 +10,7 @@ Handling geospatial data formats is trivial? Try gpipe!
 
 * **Simple functions** - Only two categories of functions: from() and to().
 
-* **Promised** - gpipe is promised by native Promise and it is happy working with your choice of promise library (Q, bluebird, or promise).
+* **Promised** - gtran is promised by native Promise and it is happy working with your choice of promise library (Q, bluebird, or promise).
 
 * **GeoJson input/output** - Get the GeoJson from file and turn it into whatever you want.
 
@@ -26,7 +26,7 @@ Handling geospatial data formats is trivial? Try gpipe!
 
 ## Function
 
-gpipe provides two basic categories of function: from[format]() and to[format]().
+gtran provides two basic categories of function: from[format]() and to[format]().
 
 * **from\[formatName\](fileName [, options])**
 
@@ -55,27 +55,27 @@ A full list of available functions:
 ## Sample
 
 ``` javascript
-var gpipe = require('gpipe'),
+var gtran = require('gtran'),
 var geojson;
 
 # Specify promise library if necessary
-gpipe.setPromiseLib(require('bluebird'));
+gtran.setPromiseLib(require('bluebird'));
 
 # Read shapefile
-gpipe.fromShp('tes.shp')
+gtran.fromShp('tes.shp')
 .then(function(object) {
     geojson = object;
 });
 
 # Save geojson into shapefile
-gpipe.toShp(geojson, 'save.shp')
+gtran.toShp(geojson, 'save.shp')
 .then(function(fileNames) {
     console.log('SHP files have been saved at:' + fileNames.toString());
 });
 
 # Read csv file
 # If the test.csv has two columns: latitude and longitude
-gpipe.fromCSV('test.csv', {
+gtran.fromCSV('test.csv', {
     projection: { x: longitude, y: latitude }
 })
 .then(function(object) {
@@ -83,7 +83,7 @@ gpipe.fromCSV('test.csv', {
 });
 
 # Save geojson into csv file
-gpipe.toCSV(geojson, 'save.shp')
+gtran.toCSV(geojson, 'save.shp')
 .then(function(fileName) {
     console.log('CSV file have been saved at:' + fileName.toString());
 });

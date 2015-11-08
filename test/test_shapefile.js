@@ -1,4 +1,4 @@
-var gpipe = require('../src/gpipe.js');
+var gtran = require('../src/gtran.js');
 var _ = require('lodash');
 var fs = require('fs');
 var logger = require('log4js').getLogger();
@@ -22,7 +22,7 @@ describe('Shapefile module', function() {
     };
 
     it('should save the geojson as a shapefile', function() {
-        gpipe.toShp(geojson, saveName).then(function(files) {
+        gtran.toShp(geojson, saveName).then(function(files) {
             expect(files.length).to.be.equal(3);
 
             _.forEach(files, function(file) {
@@ -35,7 +35,7 @@ describe('Shapefile module', function() {
     })
 
     it('should read the shapefile and return a geojson', function() {
-        gpipe.fromShp(testData).then(function(geojson) {
+        gtran.fromShp(testData).then(function(geojson) {
             expect(geojson.features.length).to.be.equal(1);
             expect(geojson.features[0].properties).to.have.property('id');
             expect(geojson.features[0].properties.id).to.be.equal(1);
