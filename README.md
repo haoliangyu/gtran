@@ -10,7 +10,7 @@ Handling geospatial data formats is trivial? Try gpipe!
 
 * **Simple functions** - Only two categories of functions: from() and to().
 
-* **Promised** - gpipe is promised by bluebird and it is happy to adapt to your choice of promise library.
+* **Promised** - gpipe is promised by native Promise and it is happy working with your choice of promise library (Q, bluebird, or promise).
 
 * **GeoJson input/output** - Get the GeoJson from file and turn it into whatever you want.
 
@@ -54,22 +54,26 @@ A full list of available functions:
 
 ## Sample
 
-```
+``` javascript
 var gpipe = require('gpipe'),
-    geojson;
+var geojson;
 
-# Shapefile
+# Specify promise library if necessary
+gpipe.setPromiseLib(require('bluebird'));
+
+# Read shapefile
 gpipe.fromShp('tes.shp')
 .then(function(object) {
     geojson = object;
 });
 
+# Save geojson into shapefile
 gpipe.toShp(geojson, 'save.shp')
 .then(function(fileNames) {
     console.log('SHP files have been saved at:' + fileNames.toString());
 });
 
-# CSV
+# Read csv file
 # If the test.csv has two columns: latitude and longitude
 gpipe.fromCSV('test.csv', {
     projection: { x: longitude, y: latitude }
@@ -77,6 +81,14 @@ gpipe.fromCSV('test.csv', {
 .then(function(object) {
     geojson = object;
 });
+
+# Save geojson into csv file
+gpipe.toCSV(geojson, 'save.shp')
+.then(function(fileName) {
+    console.log('CSV file have been saved at:' + fileName.toString());
+});
+
+
 ```
 
 ## Dependency

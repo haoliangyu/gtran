@@ -8,7 +8,7 @@ exports.set = function(promiseLib) {
     if (promiseLib) {
         promiseLib = parsePromiseLib(promiseLib);
     } else {
-        // if not ES6
+        // if not ES6, native Promise is not support
         if (typeof(Promise) === 'undefined') {
             throw new TypeError('Promise library must be specified.');
         }
@@ -19,7 +19,6 @@ exports.set = function(promiseLib) {
 };
 
 exports.promisify = function(func) {
-    // return require('bluebird').promisify(func);
     if (!promiseLib) { promiseLib = parsePromiseLib(Promise); }
 
     return function () {
