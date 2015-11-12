@@ -59,7 +59,7 @@ exports.fromGeoJson = function(geojson, fileName, options) {
             }
 
             var kmlContent = tokml(kmlGeoJson, {
-                name: 'Name',
+                name: 'name',
                 description: 'kmlDescription'
             });
 

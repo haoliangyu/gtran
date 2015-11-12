@@ -10,9 +10,9 @@ var fileWrite = Promise.promisify(fs.writeFile);
 
 describe('CSV module', function() {
 
-    var saveName = 'test.csv';
+    var saveName = 'test/result/test.csv';
 
-    var csvData = 'ID,X,Y\n1,-78,65\n1,-78,66\n';
+    var testFile = 'test/data/test.csv';
 
     var geojson = {
         'type': 'FeatureCollection',
@@ -27,10 +27,10 @@ describe('CSV module', function() {
         gtran.setPromiseLib(require('bluebird'));
         gtran.toCSV(geojson, saveName)
         .then(function(filePath) {
-            var stat = fs.statSync(filePath);
-            expect(stat).to.exist;
+            // var stat = fs.statSync(filePath);
+            expect(filePath).to.be.equal(saveName);
 
-            if(stat) { fs.unlinkSync(saveName); }
+            // if(stat) { fs.unlinkSync(saveName); }
         })
         .catch(function(err) {
             logger.error(err);
@@ -38,22 +38,13 @@ describe('CSV module', function() {
     });
 
     it('should load the csv file and convert it into a geojson', function() {
-        // Create csv file first
-        fileWrite(saveName, csvData)
-        .then(function() {
-            return gtran.fromCSV(saveName, { projection: { x: 'X', y: 'Y' }});
-        })
-        .then(function(geojson) {
-            expect(geojson).to.exist;
-            expect(geojson.features.length).to.be.equal(2);
-        })
-        .catch(function(err) {
-            logger.error(err);
-        })
-        .finally(function() {
-            if(fs.statSync(saveName)) {
-                fs.unlinkSync(saveName);
-            }
-        });
+      gtran.fromCSV(testFile, { projection: { x: 'X', y: 'Y' }})
+      .then(function(geojson) {
+          expect(geojson).to.exist;
+          expect(geojson.features.length).to.be.equal(2);
+      })
+      .catch(function(err) {
+          logger.error(err);
+      });
     });
 });

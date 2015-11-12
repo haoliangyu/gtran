@@ -22,7 +22,7 @@ exports.fromGeoJson = function(geojson, fileName, options) {
 
         // write csv file
         var csvData = [];
-        csvData.push(attributeNames.join(',') + ',x,y/n');
+        csvData.push(attributeNames.join(',') + ',x,y');
 
         _.forEach(geojson.features, function(feature) {
             if(feature.geometry.type !== 'POINT') { return; }

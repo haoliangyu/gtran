@@ -8,7 +8,7 @@ var expect = chai.expect;
 
 describe('Shapefile module', function() {
 
-    var saveName = 'test.shp';
+    var saveName = 'test/result/test_POINT.shp';
 
     var testData = 'test/data/test_POINT.shp';
 
@@ -25,9 +25,9 @@ describe('Shapefile module', function() {
         gtran.toShp(geojson, saveName).then(function(files) {
             expect(files.length).to.be.equal(3);
 
-            _.forEach(files, function(file) {
-                if(fs.statSync(file)) { fs.unlinkSync(file); }
-            });
+            // _.forEach(files, function(file) {
+            //     if(fs.statSync(file)) { fs.unlinkSync(file); }
+            // });
         })
         .catch(function(err) {
             logger.error(err);

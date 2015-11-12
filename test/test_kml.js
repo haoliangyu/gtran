@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 describe('KML module', function() {
 
-    var saveName = 'test.kml';
+    var saveName = 'test/result/test.kml';
 
     var kmlData = 'test/data/test.kml';
 
@@ -15,8 +15,11 @@ describe('KML module', function() {
         'type': 'FeatureCollection',
         'features': [{
             'type': 'Feature',
-            'geometry': {"type":"POINT","coordinates":[-70.2532459795475,43.6399758607149]},
-            'properties': { 'id': 1 }
+            'geometry': {"type":"Point","coordinates":[-70.2532459795475,43.6399758607149]},
+            'properties': {
+              'id': 1,
+              'name': 'test'
+            }
         }]
     };
 
@@ -25,7 +28,7 @@ describe('KML module', function() {
         gtran.toKml(geojson, saveName).then(function(file) {
             expect(file).to.be.equal(saveName);
 
-            if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }
+            // if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }
         })
         .catch(function(err) {
             logger.error(err);

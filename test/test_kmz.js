@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 describe('KMZ module', function() {
 
-    var saveName = 'test.kmz';
+    var saveName = 'test/result/test.kmz';
 
     var geojson = {
         'type': 'FeatureCollection',
@@ -23,7 +23,7 @@ describe('KMZ module', function() {
         gtran.toKmz(geojson, saveName).then(function(file) {
             expect(file).to.be.equal(saveName);
 
-            if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }
+            // if(fs.statSync(saveName)) { fs.unlinkSync(saveName); }
         })
         .catch(function(err) {
             logger.error(err);
