@@ -13,7 +13,7 @@ describe('KMZ module', function() {
         'type': 'FeatureCollection',
         'features': [{
             'type': 'Feature',
-            'geometry': {"type":"POINT","coordinates":[-70.2532459795475,43.6399758607149]},
+            'geometry': {"type":"Point","coordinates":[-70.2532459795475,43.6399758607149]},
             'properties': { 'id': 1 }
         }]
     };

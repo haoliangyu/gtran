@@ -1,8 +1,8 @@
 {
   "name": "gtran",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Geographic data transformation",
-  "main": "index.js",
+  "main": "src/gtran.js",
   "scripts": {
     "test": "mocha"
   },
