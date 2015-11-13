@@ -19,17 +19,17 @@
   "dependencies": {
     "elementtree": "^0.1.6",
     "gtran-csv": "^1.0.0",
+    "gtran-shapefile": "^1.0.0",
     "jszip": "^2.5.0",
     "lodash": "^3.10.1",
     "log4js": "^0.6.27",
-    "shapefile": "^0.3.0",
-    "shp-write": "^0.2.4",
     "tokml": "^0.3.0",
     "topojson": "^1.6.19"
   },
   "devDependencies": {
     "bluebird": "^3.0.5",
     "chai": "^3.3.0",
+    "lodash": "^3.10.1",
     "log4js": "^0.6.27",
     "mocha": "^2.3.3",
     "promise": "^7.0.4",

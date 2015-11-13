@@ -1,4 +1,4 @@
-var shapefile = require('./shapefile.js');
+var shapefile = require('gtran-shapefile');
 var kml = require('./kml.js');
 var kmz = require('./kmz.js');
 var csv = require('gtran-csv');
