@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
 var promiseLib;
 
 exports.set = function(promiseLib) {
@@ -35,7 +34,9 @@ exports.promisify = function(func) {
 
 function parsePromiseLib(promiseLib) {
 
-    if (_.isFunction(promiseLib) || _.isObject(promiseLib)) {
+    var libType = typeof promiseLib;
+
+    if (libType === 'function' || libType === 'object') {
         var root = promiseLib.Promise instanceof Function ? promiseLib.Promise : promiseLib,
             methods = ['resolve', 'reject', 'all'],
             success = true;
@@ -44,7 +45,7 @@ function parsePromiseLib(promiseLib) {
             return new root(func);
         };
 
-        _.forEach(methods, function(method) {
+        methods.forEach(function(method) {
             promise[method] = root[method];
             success = success && root[method] instanceof Function;
         });

@@ -17,18 +17,14 @@
   },
   "homepage": "https://github.com/haoliangyu/gtran#readme",
   "dependencies": {
-    "elementtree": "^0.1.6",
     "gtran-csv": "^1.0.0",
-    "gtran-shapefile": "^1.0.0",
-    "jszip": "^2.5.0",
-    "lodash": "^3.10.1",
-    "log4js": "^0.6.27",
-    "tokml": "^0.3.0",
-    "topojson": "^1.6.19"
+    "gtran-kml": "^1.0.0",
+    "gtran-kmz": "^1.0.0",
+    "gtran-shapefile": "^1.0.0"
   },
   "devDependencies": {
     "bluebird": "^3.0.5",
-    "chai": "^3.3.0",
+    "chai": "^3.4.1",
     "lodash": "^3.10.1",
     "log4js": "^0.6.27",
     "mocha": "^2.3.3",

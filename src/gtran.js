@@ -1,6 +1,6 @@
 var shapefile = require('gtran-shapefile');
-var kml = require('./kml.js');
-var kmz = require('./kmz.js');
+var kml = require('gtran-kml');
+var kmz = require('gtran-kmz');
 var csv = require('gtran-csv');
 
 // specify promise lib
