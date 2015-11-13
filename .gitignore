@@ -1,2 +1,7 @@
 node_modules
-test/result
+test/result/*.csv
+test/result/*.kml
+test/result/*.kmz
+test/result/*.dbf
+test/result/*.shp
+test/result/*.shx
