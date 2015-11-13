@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/haoliangyu/gtran#readme",
   "dependencies": {
-    "csv-parse": "^1.0.0",
     "elementtree": "^0.1.6",
+    "gtran-csv": "^1.0.0",
     "jszip": "^2.5.0",
     "lodash": "^3.10.1",
     "log4js": "^0.6.27",

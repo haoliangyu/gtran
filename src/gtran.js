@@ -1,7 +1,7 @@
 var shapefile = require('./shapefile.js');
 var kml = require('./kml.js');
 var kmz = require('./kmz.js');
-var csv = require('./csv.js');
+var csv = require('gtran-csv');
 
 // specify promise lib
 exports.setPromiseLib = function(promiseLib) {
