@@ -1,6 +1,6 @@
 {
   "name": "gtran",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Geographic data transformation",
   "main": "src/gtran.js",
   "scripts": {
@@ -22,6 +22,5 @@
     "gtran-kmz": "^1.0.0",
     "gtran-shapefile": "^1.0.0"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
