@@ -1,6 +1,6 @@
 {
   "name": "gtran",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Geographic data transformation",
   "main": "src/gtran.js",
   "scripts": {
