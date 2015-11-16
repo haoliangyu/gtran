@@ -1,18 +1,22 @@
 # gtran
 
-Handling geospatial data formats is trivial? Try gtran!
+Geospatial data I/O package making data conversion simple and manageable.
 
-**gtran** is a package that trying to make the geospatial data read/write simple and manageable.
+## Installation
 
-## Feature
+``` javascript
+npm install gtran
+```
 
-* **Multi-format support** - One package for all formats.
+## Features
 
-* **Simple functions** - Only two categories of functions: from() and to().
+* **Multi-format support** - Just one package.
 
-* **Promised** - gtran is promised by native Promise and it is happy working with your choice of promise library (Q, bluebird, or promise).
+* **Simple functions** - Consistent functions for different formats, just from() and to().
 
-* **GeoJson input/output** - Get the GeoJson from file and turn it into whatever you want.
+* **Promised** - Powered by native Promise and it is happy working with your choice of promise library (Q, bluebird, and promise).
+
+* **GeoJson input/output** - Get GeoJson from your file and save it into whatever you want.
 
 ## Supported Formats
 
@@ -24,27 +28,40 @@ Handling geospatial data formats is trivial? Try gtran!
 
 * Shapefile
 
-## Function
+## Functions
 
-gtran provides two basic categories of function: from[format]() and to[format]().
+gtran provides two of functions: from\[format name\]() and to\[format name\]() for each support format.
 
-* **from\[formatName\](fileName [, options])**
+* **from\[format name\](fileName [, options])**
 
     Read the geospatial data file and return a GeoJson object.
 
-* **to\[formatName\](geojson, fileName [,options])**
+* **to\[format name\](geojson, fileName [,options])**
 
-    Write the GeoJson object into a data file with given path and format. If the fileName is not given, it returns file data ready for transfer or writting.
+    Write the GeoJson object into a file with given name and format. If the file name is not given, the function returns a data object that could be written into file.
 
 A full list of available functions:
 
-* **.fromCSV(fileName, options)** - Columns projection is required. Please see the sample.
+* **setPromiseLib(object)**
+
+    Specify the promise library. If not, the library will use the native Promise.
+
+* **.fromCSV(fileName, options)**
+
+    options:
+
+    * projection - Geographic coordinate columns, necessary parameter. Please check the use example.
 
 * **.toCSV(geojson, fileName)**
 
 * **.fromKML(fileName)**
 
-* **.toKML(geojson, fileName)**
+* **.toKML(geojson, fileName, options)**
+
+    options:
+
+    * symbol - Symbol of saved features. [Detail about supported style options](https://github.com/haoliangyu/gtran-kml).
+
 
 * **.toKMZ(geojson, fileName)**
 
@@ -52,53 +69,38 @@ A full list of available functions:
 
 * **.toShp(geojson, fileName)**
 
-## Sample
+## Use Example
 
 ``` javascript
-var gtran = require('gtran'),
-var geojson;
+var gtran = require('gtran');
 
-# Specify promise library if necessary
+# Specify the promise library if necessary
 gtran.setPromiseLib(require('bluebird'));
 
 # Read shapefile
-gtran.fromShp('tes.shp')
+gtran.fromShp('source.shp')
 .then(function(object) {
-    geojson = object;
+    var geojson = object;
 });
 
 # Save geojson into shapefile
-gtran.toShp(geojson, 'save.shp')
+gtran.toShp(geojson, 'point.shp')
 .then(function(fileNames) {
     console.log('SHP files have been saved at:' + fileNames.toString());
 });
 
 # Read csv file
 # If the test.csv has two columns: latitude and longitude
-gtran.fromCSV('test.csv', {
-    projection: { x: longitude, y: latitude }
+gtran.fromCSV('source.csv', {
+    projection: { x: 'longitude', y: 'latitude' }
 })
 .then(function(object) {
-    geojson = object;
+    var geojson = object;
 });
 
-# Save geojson into csv file
-gtran.toCSV(geojson, 'save.shp')
+# Save geojson into a csv file
+gtran.toCSV(geojson, 'point.csv')
 .then(function(fileName) {
-    console.log('CSV file have been saved at:' + fileName.toString());
+    console.log('CSV file has been saved at:' + fileName);
 });
-
-
 ```
-
-## Dependency
-
-This package is powered by theses awesome packages
-
-* [csv-parse](https://github.com/wdavidw/node-csv-parse)
-
-* [shapefile](https://github.com/mbostock/shapefile)
-
-* [shp-write](https://github.com/mapbox/shp-write)
-
-* [tokml](https://github.com/mapbox/tokml)
