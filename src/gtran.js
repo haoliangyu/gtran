@@ -2,6 +2,7 @@ var shapefile = require('gtran-shapefile');
 var kml = require('gtran-kml');
 var kmz = require('gtran-kmz');
 var csv = require('gtran-csv');
+var topo = require('gtran-topojson');
 
 // specify promise lib
 exports.setPromiseLib = function(promiseLib) {
@@ -9,6 +10,7 @@ exports.setPromiseLib = function(promiseLib) {
   kml.setPromiseLib(promiseLib);
   kmz.setPromiseLib(promiseLib);
   csv.setPromiseLib(promiseLib);
+  topo.setPromiseLib(promiseLib);
 };
 
 // Shapefile Import/Export
@@ -25,3 +27,6 @@ exports.toKmz = kmz.fromGeoJson;
 // CSV Import/Export
 exports.toCSV = csv.fromGeoJson;
 exports.fromCSV = csv.toGeoJson;
+
+// Topojson Export
+exports.toTopo = topo.fromGeoJson;

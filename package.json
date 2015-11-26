@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/haoliangyu/gtran.git"
   },
+  "keywords": [
+    "geojson",
+    "conversion"
+  ],
   "author": "Haoliang Yu <haholiang.yu@outlook.com>",
   "license": "MIT",
   "bugs": {
@@ -20,7 +24,8 @@
     "gtran-csv": "^1.0.0",
     "gtran-kml": "^1.0.0",
     "gtran-kmz": "^1.0.0",
-    "gtran-shapefile": "^1.0.0"
+    "gtran-shapefile": "^1.0.0",
+    "gtran-topojson": "^1.0.0"
   },
   "devDependencies": {}
 }

@@ -28,6 +28,8 @@ npm install gtran
 
 * Shapefile
 
+* TopoJson
+
 ## Functions
 
 gtran provides two of functions: from\[format name\]() and to\[format name\]() for each support format.
@@ -68,6 +70,8 @@ A full list of available functions:
 * **.fromShp(fileName)**
 
 * **.toShp(geojson, fileName)**
+
+* **.toTopo(geojson)**
 
 ## Use Example
 
