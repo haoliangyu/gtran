@@ -2,10 +2,10 @@
 
 var promiseLib;
 
-exports.set = function(promiseLib) {
+exports.set = function(lib) {
 
-    if (promiseLib) {
-        promiseLib = parsePromiseLib(promiseLib);
+    if (lib) {
+        promiseLib = parsePromiseLib(lib);
     } else {
         // if not ES6, native Promise is not support
         if (typeof(Promise) === 'undefined') {
@@ -22,7 +22,7 @@ exports.promisify = function(func) {
 
     return function () {
         var args = Array.prototype.slice.call(arguments);
-        return new Promise(function (resolve, reject) {
+        return new promiseLib(function (resolve, reject) {
             args.push(function (err, res) {
                 if (err) { reject(err); }
                 else { resolve(res); }
