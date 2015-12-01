@@ -61,8 +61,6 @@ A full list of available functions:
 * **.toKML(geojson, fileName, options)**
 
     options:
-	
-    * name	 - Name property of feature.
 
     * symbol - Symbol of saved features. [Detail about supported style options](https://github.com/haoliangyu/gtran-kml).
 
