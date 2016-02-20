@@ -61,7 +61,7 @@ A full list of available functions:
 * **.toKML(geojson, fileName, options)**
 
     options:
-	
+
     * name	 - Name property of feature.
 
     * symbol - Symbol of saved features. [Detail about supported style options](https://github.com/haoliangyu/gtran-kml).
@@ -71,7 +71,11 @@ A full list of available functions:
 
 * **.fromShp(fileName)**
 
-* **.toShp(geojson, fileName)**
+* **.toShp(geojson, fileName, options)**
+
+    options:
+
+    * esriWKT - ESRI WTK string that specifies the shapefile's spatial reference and generates .prj file. The ESRI WKT string could be found at [SpatialReference.org](http://spatialreference.org/).
 
 * **.toTopo(geojson)**
 
