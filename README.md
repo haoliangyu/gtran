@@ -102,7 +102,7 @@ gtran.toShp(geojson, 'point.shp')
 # Read csv file
 # If the test.csv has two columns: latitude and longitude
 gtran.fromCSV('source.csv', {
-    projection: { x: 'longitude', y: 'latitude' }
+    mapping: { x: 'longitude', y: 'latitude' }
 })
 .then(function(object) {
     var geojson = object;
