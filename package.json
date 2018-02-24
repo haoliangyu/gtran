@@ -21,10 +21,10 @@
   },
   "homepage": "https://github.com/haoliangyu/gtran#readme",
   "dependencies": {
-    "gtran-csv": "^1.0.4",
-    "gtran-kml": "^1.1.10",
+    "gtran-csv": "^1.0.5",
+    "gtran-kml": "^1.2.0",
     "gtran-kmz": "^1.1.4",
-    "gtran-shapefile": "^1.1.0",
+    "gtran-shapefile": "^1.1.3",
     "gtran-topojson": "^1.0.2"
   },
   "devDependencies": {}
