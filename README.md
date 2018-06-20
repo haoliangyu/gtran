@@ -28,7 +28,7 @@ npm install gtran
 
 * Shapefile
 
-* TopoJson
+* TopoJson (write only)
 
 ## Functions
 
@@ -56,9 +56,9 @@ A full list of available functions:
 
 * **.toCSV(geojson, fileName)**
 
-* **.fromKML(fileName)**
+* **.fromKml(fileName)**
 
-* **.toKML(geojson, fileName, options)**
+* **.toKml(geojson, fileName, options)**
 
     options:
 
@@ -67,7 +67,7 @@ A full list of available functions:
     * symbol - Symbol of saved features. [Detail about supported style options](https://github.com/haoliangyu/gtran-kml).
 
 
-* **.toKMZ(geojson, fileName)**
+* **.toKmz(geojson, fileName)**
 
 * **.fromShp(fileName)**
 
